@@ -1,14 +1,26 @@
-const KEYWORDS = ["주의사항",'식품유형',"소비기한","제조연월일",'제공고시','영양정보','원재료명','제조원','원재료','원산지','제품정보','상품정보','원료', '함량', "표시대상", "알레르기","표시사항"];
+const KEYWORDS = [
+	'식품유형',
+	"소비기한",
+	"제조연월일",
+	'제공고시',
+	'영양정보',
+	'원재료명',
+	'제조원',
+	'원재료',
+	'원산지',
+	'제품정보',
+	'상품정보',
+	'원료',
+	'함량',
+	"표시대상",
+	"알레르기",
+];
 const express = require('express');
 const fs = require('fs');
 const Tesseract = require('tesseract.js');
 const app = express();
 const PORT = 1818;
 
-// 서버 시작
-app.listen(PORT, () => {
-  console.log(`서버실행 http://localhost:${PORT}`);
-});
 
 
 //####################################################################
@@ -57,17 +69,13 @@ const filterImagesByKeywords = async (originLinkArray, keywords) => {
 
         // 이미지에서 텍스트 추출
         const extractedText = await extractTextFromImage(imageUrl);
-				console.log('=============================================================================');
-				console.log("이미지 링크 추출 시작 : ",imageUrl);
-				console.log('=============================================================================');
+				console.log('=================================================================================================');
+				console.log("=== 이미지 링크 추출 시작 : ",imageUrl);
+				console.log('=================================================================================================');
 
 				console.log(extractedText)
 
-				console.log('-----------------------------------------------------------------------------');
-				console.log('###############################추출종료######################################');
-				console.log('############################################################################');
-				console.log('############################################################################');
-				console.log('############################################################################');
+				console.log('-------------------------------------------------------------------------------------------------');
 
         
 				// 키워드 중 하나라도 포함된 경우 해당 링크를 filteredArr에 추가
@@ -154,10 +162,15 @@ const convertData = async (crawlData, dbData) => {
 
 // 비동기 실행
 (async () => {
+	// 서버 시작
+	app.listen(PORT, () => {
+		console.log(`서버실행 http://localhost:${PORT}`);
+	});
+
   const newData = readJsonFile("testData.json"); //새로운 데이터
 	const dbData = readJsonFile("ocrDB.json");			 //검수완료된 데이터
   const result = await convertData(newData, dbData);
 
-	console.log('result :',result);
+	console.log('최종결과 :',result);
 })();
 
